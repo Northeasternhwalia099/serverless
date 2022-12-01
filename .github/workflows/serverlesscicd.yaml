@@ -43,7 +43,7 @@ jobs:
         uses: appleboy/lambda-action@master
         with:
           aws_access_key_id: ${{secrets.AWS_ACCESS_KEY_ID}}
-          aws_secret_access_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+          aws_secret_access_key: ${{secrets.AWS_SECRET_KEY_ID}}
           aws_region: us-east-1
           function_name: RegistrationMail
           zip_file: target/Serverless-0.0.1-SNAPSHOT.jar
@@ -58,7 +58,7 @@ jobs:
           S3_BUCKET: jarfilelambda
           S3_KEY: Serverless-0.0.1-SNAPSHOT.jar
           AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
-          AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+          AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_KEY_ID}}
 
 #       - name: existing fucn relaunch
 #         id: deploy
