@@ -18,7 +18,7 @@ jobs:
         id: vars
         run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
 
-      - name: java env setup
+      - name: java env setups
         uses: actions/setup-java@v2
         with:
           distribution: "temurin"
