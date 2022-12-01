@@ -12,22 +12,25 @@ jobs:
     runs-on: ubuntu-latest
     name: relaucnhing lambda by creating fresh jar
     steps:
-      # checks-out current repo so the job can access it
       - name: Checkout->Reposioty
         uses: actions/checkout@v2
       - name: Set->sha_short
         id: vars
         run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
-      # setup java environment for execution
-      - name: java env setup
+
+      - name: java env setups
         uses: actions/setup-java@v2
         with:
           distribution: "temurin"
           java-version: "11"
-      # run unit test using maven commands
+
       - name: maven build
         run: |
           mvn -B package --file pom.xml
+
+      - name: maven build
+        run: |
+          mvn clean install
 
       - name: aws creds config
         uses: aws-actions/configure-aws-credentials@v1
