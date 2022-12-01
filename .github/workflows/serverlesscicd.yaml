@@ -48,12 +48,20 @@ jobs:
           function_name: RegistrationMail
           zip_file: target/Serverless-0.0.1-SNAPSHOT.jar
 
-      - name: sync s3
-        run: |
-          aws s3 sync target/Serverless-0.0.1-SNAPSHOT.jar s3://jarfilelambda
+      - name: Upload latest code file to bucket
+        uses: zdurham/s3-upload-github-action@master
+        with:
+          args: --acl public-read
+        env:
+          FILE: target/Serverless-0.0.1-SNAPSHOT.jar
+          AWS_REGION: 'us-east-1'
+          S3_BUCKET: jarfilelambda
+          S3_KEY: Serverless-0.0.1-SNAPSHOT.jar
+          AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
+          AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
 
-      - name: existing fucn relaunch
-        id: deploy
-        run: |
-          cd target
-          aws lambda update-function-code --function-name RegistrationMail --zip-file fileb://Serverless-0.0.1-SNAPSHOT.jar
+#       - name: existing fucn relaunch
+#         id: deploy
+#         run: |
+#           cd target
+#           aws lambda update-function-code --function-name RegistrationMail --zip-file fileb://Serverless-0.0.1-SNAPSHOT.jar
