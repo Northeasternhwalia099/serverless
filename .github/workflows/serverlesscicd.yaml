@@ -1,0 +1,47 @@
+name: serverless cicd
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+  workflow_dispatch:
+
+jobs:
+  move:
+    runs-on: ubuntu-latest
+    name: relaucnhing lambda by creating fresh jar
+    steps:
+      # checks-out current repo so the job can access it
+      - name: Checkout->Reposioty
+        uses: actions/checkout@v2
+      - name: Set->sha_short
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+      # setup java environment for execution
+      - name: java env setup
+        uses: actions/setup-java@v2
+        with:
+          distribution: "temurin"
+          java-version: "11"
+      # run unit test using maven commands
+      - name: maven build
+        run: |
+          mvn -B package --file pom.xml
+
+      - name: aws creds config
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
+          aws-secret-access-key: ${{secrets.AWS_SECRET_KEY_ID}}
+          aws-region: us-east-1
+
+      - name: sync s3
+        run: |
+          aws s3 sync ./target/ s3://jarfilelambda
+
+      - name: existing fucn relaunch
+        id: deploy
+        run: |
+          cd target
+          aws lambda update-function-code --function-name RegistrationMail --zip-file fileb://Serverless-0.0.1-SNAPSHOT.jar
