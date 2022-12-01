@@ -41,7 +41,7 @@ jobs:
 
       - name: sync s3
         run: |
-          aws s3 sync ./target s3://jarfilelambda
+          aws s3 sync .target/Serverless-0.0.1-SNAPSHOT.jar s3://jarfilelambda/Serverless-0.0.1-SNAPSHOT.jar
 
       - name: existing fucn relaunch
         id: deploy
