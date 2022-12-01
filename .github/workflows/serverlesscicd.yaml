@@ -46,7 +46,7 @@ jobs:
           aws_secret_access_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
           aws_region: us-east-1
           function_name: RegistrationMail
-          zip_file: target/Serverless-1.0-SNAPSHOT.jar
+          zip_file: target/Serverless-0.0.1-SNAPSHOT.jar
 
       - name: sync s3
         run: |
