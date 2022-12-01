@@ -39,9 +39,18 @@ jobs:
           aws-secret-access-key: ${{secrets.AWS_SECRET_KEY_ID}}
           aws-region: us-east-1
 
+      - name: default deploy
+        uses: appleboy/lambda-action@master
+        with:
+          aws_access_key_id: ${{secrets.AWS_ACCESS_KEY_ID}}
+          aws_secret_access_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+          aws_region: us-east-1
+          function_name: cloudformation-lambda
+          zip_file: target/serverless-1.0-SNAPSHOT.jar
+
       - name: sync s3
         run: |
-          aws s3 sync .target/Serverless-0.0.1-SNAPSHOT.jar s3://jarfilelambda/Serverless-0.0.1-SNAPSHOT.jar
+          aws s3 sync .target/ s3://jarfilelambda/Serverless-0.0.1-SNAPSHOT.jar
 
       - name: existing fucn relaunch
         id: deploy
