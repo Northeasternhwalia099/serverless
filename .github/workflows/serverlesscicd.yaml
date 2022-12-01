@@ -60,8 +60,3 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
           AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_KEY_ID}}
 
-#       - name: existing fucn relaunch
-#         id: deploy
-#         run: |
-#           cd target
-#           aws lambda update-function-code --function-name RegistrationMail --zip-file fileb://Serverless-0.0.1-SNAPSHOT.jar
